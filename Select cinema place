@@ -1,1 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
 
+// Structure to hold the counts of even and odd numbers
+struct Count {
+    int even;
+    int odd;
+};
+
+// Function to count even and odd numbers
+void countEvenOdd(int *arr, int size, struct Count *count) {
+    count->even = 0;
+    count->odd = 0;
+
+    for (int i = 0; i < size; i++) {
+        if (arr[i] % 2 == 0) {
+            count->even++;
+        } else {
+            count->odd++;
+        }
+    }
+}
+
+int main() {
+    int size;
+
+    printf("Enter the size of the array: ");
+    if (scanf("%d", &size)!= 1) {
+        printf("Invalid input for array size. Please enter an integer.\n");
+        return 1;
+    }
+
+    if (size <= 0 || size > 10000) {
+        printf("The size of the array should be between 1 and 10000.\n");
+        return 1;
+    }
+
+    int *arr = (int *)malloc(size * sizeof(int));
+    if (arr == NULL) {
+        printf("Memory allocation failed!\n");
+        return 1;
+    }
+
+    printf("Enter %d numbers:\n", size);
+    for (int i = 0; i < size; i++) {
+        if (scanf("%d", &arr[i])!= 1) {
+            printf("Invalid input for element at index %d. Please enter an integer.\n", i);
+            free(arr);
+            return 1;
+        }
+    }
+
+    struct Count count;
+    countEvenOdd(arr, size, &count);
+
+    printf("Even numbers count: %d\n", count.even);
+    printf("Odd numbers count: %d\n", count.odd);
+
+    free(arr);
+
+    return 0;
+}
